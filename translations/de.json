@@ -1,0 +1,22 @@
+{
+    "LOADING": "Lade...",
+    "ERROR": "Fehler...",
+    "SEASON": "Saison",
+    "HOME": "Heim",
+    "GUEST": "Gast",
+    "1ST_QUARTER": "1. Viertel",
+    "2ND_QUARTER": "2. Viertel",
+    "3RD_QUARTER": "3. Viertel",
+    "4TH_QUARTER": "4. Viertel",
+    "UPCOMING": "Bevorstehend",
+    "TIME": "Zeit",
+    "TIME_LEFT": "übrig",
+    "W": "Woche",
+    "BYE_WEEK": "Spielfrei",
+    "FINAL": "Beendet",
+    "HALF_TIME": "Halbzeit",
+    "OVER_TIME": "Verlängerung",
+    "FINAL_OVERTIME": "Beendet (OT)",
+    "TIE": "Unentschieden",
+    "UPDATED": "Aktualisiert"
+}

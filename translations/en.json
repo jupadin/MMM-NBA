@@ -1,0 +1,22 @@
+{
+    "LOADING": "Loading...",
+    "ERROR": "Error...",
+    "SEASON": "Season",
+    "HOME": "Home",
+    "GUEST": "Guest",
+    "1ST_QUARTER": "1st Quarter",
+    "2ND_QUARTER": "2nd Quarter",
+    "3RD_QUARTER": "3rd Quarter",
+    "4TH_QUARTER": "4th Quarter",
+    "UPCOMING": "Upcoming",
+    "TIME": "Time",
+    "TIME_LEFT": "left",
+    "W": "Week",
+    "BYE_WEEK": "Bye week",
+    "FINAL": "Final",
+    "HALF_TIME": "Half Time",
+    "OVER_TIME": "Over Time",
+    "FINAL_OVERTIME": "Final (OT)",
+    "TIE": "Tie",
+    "UPDATED": "Updated"
+}

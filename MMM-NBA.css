@@ -1,0 +1,52 @@
+/* Magic Mirror
+ * Module: MMM-NBA
+ *
+ * By jupadin
+ * MIT Licensed.
+ */
+
+.MMM-NBA.table {
+    line-height: 1;
+}
+
+.tableHeader {
+    text-align: center;
+}
+
+.date {
+    padding-right: 25px;
+}
+
+.firstTeam {
+    text-align: left;
+    padding-right: 15px;
+}
+
+.firstTeamScore {
+    padding-right: 5px;
+}
+
+.secondTeam {
+    text-align: right;
+    padding-left: 15px;
+}
+
+.secondTeamScore {
+    padding-left: 5px;
+}
+
+.byeweek.team .byeweek.logo {
+    text-align: left;
+    padding-right: 15px;
+}
+
+.MMM-NBA .footer {
+    text-align: right;
+    font-size: small;
+    border-top: 1px solid var(--color-text-dimmed);
+}
+
+.uncolored {
+    filter: grayscale(100%);
+    -webkit-filter: grayscale(100%);
+}
