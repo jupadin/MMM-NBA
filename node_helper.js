@@ -81,31 +81,6 @@ module.exports = NodeHelper.create({
     getData: function() {
         const self = this;
         Log.info(this.name + ": Fetching data from NBA-Server...");
-        this.upcomingEvents = null;
-
-        // Fetch upcoming events
-        const nbaURLNextDay = self.config.urls[self.config.mode] + "?dates=" + moment().format("YYYYMMDD");
-        request(nbaURLNextDay, function(error, response, body) {
-            if (error || response.statusCode != 200) {
-                Log.debug(self.name + ": Error getting NBA scores (" + response.statusCode + ")");
-                self.sendSocketNotification("ERROR", response.statusCode);
-                return;
-            }
-            const json = JSON.parse(body);
-
-            // Create events array
-            const events = json.events || [];
-
-            // Format each event based on callback function (mapEvent) and sort it afterwards, based on start date (starttime).
-            const scores = events.map(self.mapEvent.bind(self)).sort((a, b) => {
-                return (a.starttime < b.starttime) ? -1 : ((a.starttime > b.starttime) ? 1 : 0); 
-            });
-
-            self.upcomingEvents = scores;
-        });
-
-
-
         const nbaURL = self.config.urls[self.config.mode];
         request(nbaURL, function(error, response, body) {
             if (error || response.statusCode != 200) {
@@ -135,7 +110,7 @@ module.exports = NodeHelper.create({
             };
 
             // Send data to front-end
-            self.sendSocketNotification("DATA", {games: scores.concat(self.upcomingEvents), details: details});
+            self.sendSocketNotification("DATA", {games: scores, details: details});
         });
 
         if (self.live) {
