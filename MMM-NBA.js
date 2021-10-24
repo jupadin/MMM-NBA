@@ -299,33 +299,27 @@ Module.register("MMM-NBA", {
         const tableDataRow = document.createElement("tr");
         tableDataRow.className = "tableRow";
 
+        const logoLink = "https://a.espncdn.com/i/teamlogos/nba/500/scoreboard/" + teamName.toLowerCase() + ".png";
+
         // Bye week
         const byeWeek = document.createElement("td");
         byeWeek.className = "byeweek date";
         byeWeek.innerHTML = this.translate("BYE_WEEK");
         tableDataRow.appendChild(byeWeek);
 
-        // Team and Logo wrapper
-        const wrapper = document.createElement("td");
-        wrapper.className = "byeweek wrapper";
-        wrapper.setAttribute("colspan", 2);
-
         // Team
         const team = document.createElement("td");
-        team.className = "byeweek team";
+        team.className = "byeweek firstTeam firstTeamName name";
         // Highlight team
         team.classList.add("bright");
         team.innerHTML = teamName;
-        wrapper.appendChild(team);
+        tableDataRow.appendChild(team);
 
         // Logo
         const logo = document.createElement("td");
-        logo.className = "byeweek logo";
-        logo.appendChild(this.getIcon(teamName));
-        wrapper.appendChild(logo);
-
-        // Append wrapper to table data row
-        tableDataRow.appendChild(wrapper);
+        logo.className = "byeweek firstTeam firstTeamLogo logo";
+        logo.appendChild(this.getIcon(logoLink));
+        tableDataRow.appendChild(logo);
 
         // Date
         const date = document.createElement("td");
