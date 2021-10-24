@@ -69,8 +69,9 @@ module.exports = NodeHelper.create({
             vs: event.competitions[0].competitors[1].score,
             // Remaining time
             k: remainingTime,
-            // Optional (adding logo link)
+            // Link logo team home
             hl: event.competitions[0].competitors[0].team.logo,
+            // Link logo team guest
             vl: event.competitions[0].competitors[1].team.logo,
         };
         return formattedEvent;

@@ -216,9 +216,8 @@ Module.register("MMM-NBA", {
                 // Time
                 const time = document.createElement("div");
                 time.innerHTML = data.k + " " + this.translate("TIME_LEFT");
-                time.classList.add("date", "live");
+                time.classList.add("date", "live", "bright");
                 date.appendChild(time);
-                date.classList.add("bright");
             } else {
                 // If game is not live / tie / ...
                 date.appendChild(quarter);
