@@ -320,7 +320,7 @@ Module.register("MMM-NBA", {
         // Logo
         const logo = document.createElement("td");
         logo.className = "byeweek logo";
-        logo.appendChild(thos.getIcon(teamName));
+        logo.appendChild(this.getIcon(teamName));
         wrapper.appendChild(logo);
 
         // Append wrapper to table data row
