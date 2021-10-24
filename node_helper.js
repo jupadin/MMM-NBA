@@ -5,10 +5,8 @@
  * MIT Licensed.
  */
 
-const { SocketAddress } = require('net');
 const NodeHelper = require('node_helper');
 const request = require('request');
-const moment = require('moment');
 const Log = require('../../js/logger.js');
 
 module.exports = NodeHelper.create({
