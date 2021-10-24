@@ -102,24 +102,24 @@ module.exports = NodeHelper.create({
                 return (a.starttime < b.starttime) ? -1 : ((a.starttime > b.starttime) ? 1 : 0); 
             });
 
-            // Check if there is currently a live match
-            if (scores.every(timeLeft => timeLeft === false)) {
-                self.live = false;
-            };
-
             // Send data to front-end
             self.sendSocketNotification("DATA", {games: scores, details: details});
+
+            // Check if there is currently a live match
+            if (scores.every(timeLeft => timeLeft !== false)) {
+                self.live = true;
+            };
+
+            if (self.live) {
+                // If there is a match currently live, set update interval to 1 minute.
+                self.updateInterval = 1 * 60 * 1000;
+            } else {
+                // Otherwise set it to the specified update interval time.
+                self.updateInterval = self.config.updateInterval;
+            }
+
+            // Set timeout to continuiusly fetch new data from NBA-Server
+            setTimeout(self.getData.bind(self), self.updateInterval);
         });
-
-        if (self.live) {
-            // If there is a match currently live, set update interval to 1 minute.
-            self.updateInterval = 1 * 60 * 1000;
-        } else {
-            // Otherwise set it to the specified update interval time.
-            self.updateInterval = self.config.updateInterval;
-        }
-
-        // Set timeout to continuiusly fetch new data from NBA-Server
-        setTimeout(self.getData.bind(self), self.updateInterval);
     }
 })
