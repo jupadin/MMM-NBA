@@ -185,7 +185,7 @@ Module.register("MMM-NBA", {
         secondTeamHeader.className = "secondTeamHeader header";
         if (this.config.showHeaderAsIcons) {
             const awayIcon = document.createElement("i");
-            awayIcon.className = "secondTeam fas fa-tag";
+            awayIcon.className = "secondTeamHeader header icon fas fa-tag";
             secondTeamHeader.appendChild(awayIcon);
         } else {
             secondTeamHeader.innerHTML = this.translate("GUEST");
@@ -323,9 +323,9 @@ Module.register("MMM-NBA", {
 
         // Date
         const date = document.createElement("td");
+        date.className = "byeweek date";
         date.setAttribute("colspan", 5);
         date.innerHTML = moment(this.fetchedData.details.w).format("DD.MM.YYYY");
-
         tableDataRow.appendChild(date);
 
         return tableDataRow;
