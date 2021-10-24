@@ -36,6 +36,7 @@ npm install
             config: {
                 animationSpeed: 2000,
                 updateInterval: 3600000,
+                updateIntervalLive: 6000,
                 colored: true,
                 focus_on: false,
                 timeFormat: "dd. HH:mm",
@@ -58,7 +59,7 @@ The following configuration options can be set and/or changed:
 | `updateInterval` | `int` | `3600000` | How often the table shall be updated while there is *no* live game [milliseconds] (1 hour) |
 | `updateIntervalLive` | `int` | `6000` | How often the table shall be updated while there is at least one live game [milliseconds] (1 minute) |
 | `colored` | `bool` | `true` | Remove black/white filter of logos |
-| `focus_on` | `array` | `false`| Highlight matches with teams of this array and also show bye weeks for these teams (example: `['CHI']` |
+| `focus_on` | `array` | `false`| Highlight matches with teams of this array and also show bye weeks for these teams (example: `['CHI']`) |
 | `timeFormat` | `string` | `'dd. HH:mm'` | Displays the time of the upcoming events in the given format |
 | `showHeaderAsIcons`| `bool` |`false` | Display header as icons |
 | `showFooter` | `bool` | `true` | Display footer with information about last update |
