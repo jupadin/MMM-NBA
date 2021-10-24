@@ -47,7 +47,7 @@ module.exports = NodeHelper.create({
             // Game is still running -> Overtime
             return "OT";
         }
-        return eventStatus.status;
+        return eventStatus.period;
     },
 
     mapEvent: function(event) {

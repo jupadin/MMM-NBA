@@ -211,13 +211,14 @@ Module.register("MMM-NBA", {
 
             if (Object.prototype.hasOwnProperty.call(data, "k")) {
                 // If game is live
-                quarter.className = "live";
+                quarter.className = "date live";
                 date.appendChild(quarter);
                 // Time
                 const time = document.createElement("div");
                 time.innerHTML = data.k + " " + this.translate("TIME_LEFT");
-                time.classList.add("live");
+                time.classList.add("date", "live");
                 date.appendChild(time);
+                date.classList.add("bright");
             } else {
                 // If game is not live / tie / ...
                 date.appendChild(quarter);
