@@ -55,7 +55,8 @@ The following configuration options can be set and/or changed:
 | Option | Type | Default | Description |
 | ---- | ---- | ---- | ---- |
 | `animationSpeed` | `int` | `2000` | Animation speed to fade in the module on startup [milliseconds] (2 seconds) |
-| `updateInterval` | `int` | `3600000` | How often the table shall be updated [milliseconds] (1 hour) |
+| `updateInterval` | `int` | `3600000` | How often the table shall be updated while there is *no* live game [milliseconds] (1 hour) |
+| `updateIntervalLive` | `int` | `6000` | How often the table shall be updated while there is at least one live game [milliseconds] (1 minute) |
 | `colored` | `bool` | `true` | Remove black/white filter of logos |
 | `focus_on` | `array` | `false`| Highlight matches with teams of this array and also show bye weeks for these teams (example: `['CHI']` |
 | `timeFormat` | `string` | `'dd. HH:mm'` | Displays the time of the upcoming events in the given format |

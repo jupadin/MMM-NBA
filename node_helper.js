@@ -107,13 +107,13 @@ module.exports = NodeHelper.create({
             self.sendSocketNotification("DATA", {games: scores, details: details});
 
             // Check if there is currently a live match
-            if (scores.every(timeLeft => timeLeft !== false)) {
+            if (scores.some(e => e.q in ["1", "2", "3", "4", "H", "OT"])) {
                 self.live = true;
             };
 
             if (self.live) {
                 // If there is a match currently live, set update interval to 1 minute.
-                self.updateInterval = 1 * 60 * 1000;
+                self.updateInterval = self.config.updateIntervalLive;
             } else {
                 // Otherwise set it to the specified update interval time.
                 self.updateInterval = self.config.updateInterval;
