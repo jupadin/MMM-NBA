@@ -34,7 +34,7 @@ module.exports = NodeHelper.create({
         if (eventStatus.type.state === "pre") {
             // Upcoming
             return "P";
-        } else if (eventStatus.type.state === "STATUS_HALFTIME") {
+        } else if (eventStatus.type.name === "STATUS_HALFTIME") {
             // Halftime
             return "H";
         } else if (eventStatus.type.state === "post") {
