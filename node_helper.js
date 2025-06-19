@@ -6,18 +6,17 @@
  */
 
 const NodeHelper = require('node_helper');
-const request = require('request');
 const Log = require('../../js/logger.js');
 
 module.exports = NodeHelper.create({
     start: function() {
         this.config = null;
-        this.updateInterval = null;
-        this.live = false;
-        this.seasonTypeMapping = {
-            1: "P",
-            2: "R",
-        };
+        this.updateInterval = 60 * 60 * 1000;
+        // this.seasonTypeMapping = {
+        //     1: "P",
+        //     2: "R",
+        //     3: "Playoffs",
+        // };
     },
 
     socketNotificationReceived: function(notification, payload) {
@@ -37,6 +36,9 @@ module.exports = NodeHelper.create({
         } else if (eventStatus.type.name === "STATUS_HALFTIME") {
             // Halftime
             return "H";
+        } else if (eventStatus.type.name === "STATUS_POSTPONED") {
+            // Postponed
+            return "PP"
         } else if (eventStatus.type.state === "post") {
             // Game has ended -> Overtime or regular end ?
             if (eventStatus.period > 4) {
@@ -51,7 +53,7 @@ module.exports = NodeHelper.create({
     },
 
     mapEvent: function(event) {
-        const ongoing = !['pre', 'post'].includes(event.status.type);
+        const ongoing = !['pre', 'post'].includes(event.status.type?.state);
         const remainingTime = ongoing && event.status.displayClock;
 
         const formattedEvent = {
@@ -78,40 +80,41 @@ module.exports = NodeHelper.create({
     },
 
     getData: function() {
+        Log.info(`${this.name}: Fetching data from NBA-Server...`);
+        
         const self = this;
-        Log.info(this.name + ": Fetching data from NBA-Server...");
         const nbaURL = self.config.urls[self.config.mode];
-        request(nbaURL, function(error, response, body) {
-            if (error || response.statusCode != 200) {
-                Log.debug(self.name + ": Error getting NBA scores (" + response.statusCode + ")");
-                self.sendSocketNotification("ERROR", response.statusCode);
-                return;
-            }
-            const json = JSON.parse(body);
+        const fetchOptions = {};
 
+        fetch(nbaURL, fetchOptions)
+        .then(response => {
+            if (response.status != 200) {
+                self.sendSocketNotification("ERROR", response.status);
+                throw `${this.name}: Error fetching NBA data with status code ${response.status}.`;
+            }
+            return response.json();
+        })
+        .then(data => {
             const details = {
-                w: json.day.date,
-                y: json.season.year - 1,
-                t: self.seasonTypeMapping[json.season.type],
+                w: data.day.date,
+                y: data.season.year,
+                t: data.season.type,
             };
 
             // Create events array
-            const events = json.events || [];
+            const events = data.events || [];
 
             // Format each event based on callback function (mapEvent) and sort it afterwards, based on start date (starttime).
             const scores = events.map(self.mapEvent.bind(self)).sort((a, b) => {
                 return (a.starttime < b.starttime) ? -1 : ((a.starttime > b.starttime) ? 1 : 0); 
             });
 
-            // Send data to front-end
-            self.sendSocketNotification("DATA", {games: scores, details: details});
+            // console.log(scores[0]);
+            // scores.some(e => console.log(e.q));
 
             // Check if there is currently a live match
             if (scores.some(e => e.q in ["1", "2", "3", "4", "H", "OT"])) {
-                self.live = true;
-            };
-
-            if (self.live) {
+                // console.log("Live");
                 // If there is a match currently live, set update interval to 1 minute.
                 self.updateInterval = self.config.updateIntervalLive;
             } else {
@@ -119,8 +122,15 @@ module.exports = NodeHelper.create({
                 self.updateInterval = self.config.updateInterval;
             }
 
-            // Set timeout to continuiusly fetch new data from NBA-Server
-            setTimeout(self.getData.bind(self), self.updateInterval);
+            // Send data to front-end
+            self.sendSocketNotification("DATA", {games: scores, details: details});
+        })
+        .catch(error => {
+            Log.debug(`${this.name}: ${error}.`);
+            return;
         });
+
+        // Set timeout to continuosly fetch new data from NBA-Server
+        setTimeout(self.getData.bind(self), self.updateInterval);
     }
-})
+});

@@ -32,8 +32,9 @@ Module.register("MMM-NBA", {
         this.fetchedData = false;
 
         this.modes = {
-            P: "Pre-Season",
-            R: "Regular-Season",
+            1: "Pre-Season",
+            2: "Regular-Season",
+            3: "Playoffs"
         };
 
         this.states = {
@@ -47,6 +48,7 @@ Module.register("MMM-NBA", {
             FO: "FINAL_OVERTIME",
             T: "TIE",
             P: "UPCOMING",
+            PP: "POSTPONED"
         };
 
         this.sendSocketNotification("SET_CONFIG", this.config);
@@ -211,9 +213,10 @@ Module.register("MMM-NBA", {
             quarter.innerHTML = this.translate(this.states[data.q]);
 
             if (Object.prototype.hasOwnProperty.call(data, "k")) {
-                // If game is live
+                // If game is live...
                 quarter.className = "date live";
                 date.appendChild(quarter);
+
                 // Time
                 const time = document.createElement("div");
                 time.innerHTML = data.k + " " + this.translate("TIME_LEFT");
@@ -225,11 +228,15 @@ Module.register("MMM-NBA", {
             }
         } else if (data.q === "P") {
             // Game is upcoming
-            date.innerHTML = moment(data.starttime).format(this.config.timeFormat);
+            date.innerHTML = moment(data.starttime).format("dd, DD.MM, HH:mm[h]");
             date.className = "date upcoming";
+        } else if (data.q === "PP") {
+            // Game is postponed
+            date.innerHTML = `${moment(data.starttime).format("dd, DD.MM, HH:mm[h]")}`// (${this.translate(this.states[data.q])})`;
+            date.className = "date postponed dimmed";
         } else {
             // Game ended
-            date.innerHTML = this.translate(this.states[data.q]);
+            date.innerHTML = `${moment(data.starttime).format("dd, DD.MM, HH:mm[h]")}`// (${this.translate(this.states[data.q])})`;
             date.className = "date finished dimmed";
         }
 
@@ -325,6 +332,7 @@ Module.register("MMM-NBA", {
         const date = document.createElement("td");
         date.className = "byeweek date";
         date.setAttribute("colspan", 5);
+        console.log(this.fetchedData)
         date.innerHTML = moment(this.fetchedData.details.w).format("DD.MM.YYYY");
         tableDataRow.appendChild(date);
 
@@ -352,8 +360,10 @@ Module.register("MMM-NBA", {
             this.fetchedData = payload;
             this.loaded = true;
             this.error = false;
+
             // Update dom with given animation speed.
             this.updateDom(animationSpeed);
+
         } else if (notification == "ERROR") {
             this.fetchedData = payload;
             this.error = true;
