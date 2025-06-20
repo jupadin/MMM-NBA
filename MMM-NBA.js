@@ -332,7 +332,6 @@ Module.register("MMM-NBA", {
         const date = document.createElement("td");
         date.className = "byeweek date";
         date.setAttribute("colspan", 5);
-        console.log(this.fetchedData)
         date.innerHTML = moment(this.fetchedData.details.w).format("DD.MM.YYYY");
         tableDataRow.appendChild(date);
 
