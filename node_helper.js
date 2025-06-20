@@ -7,6 +7,7 @@
 
 const NodeHelper = require('node_helper');
 const Log = require('../../js/logger.js');
+const moment = require('moment');
 
 module.exports = NodeHelper.create({
     start: function() {
@@ -83,22 +84,34 @@ module.exports = NodeHelper.create({
         Log.info(`${this.name}: Fetching data from NBA-Server...`);
         
         const self = this;
+
         const nbaURL = self.config.urls[self.config.mode];
+        const lastDayOfMonth = moment().endOf('month').format('YYYYMMDD');
+        // const firstDayOfMonth = moment().startOf('month').format('YYYYMMDD');
+        // const lastDayOfLastMonth = moment().subtract(1, 'month').endOf('month').format('YYYYMMDD');
+        const beginOfWeek = moment().startOf('week').format('YYYYMMDD');
+        // const endOfWeek = moment().endOf('week').format('YYYYMMDD');
+        const url = nbaURL + `?dates=${beginOfWeek}-${lastDayOfMonth}`;
         const fetchOptions = {};
 
-        fetch(nbaURL, fetchOptions)
+        fetch(url, fetchOptions)
         .then(response => {
             if (response.status != 200) {
                 self.sendSocketNotification("ERROR", response.status);
-                throw `${this.name}: Error fetching NBA data with status code ${response.status}.`;
+                throw `Error fetching NBA data with status code ${response.status}.`;
             }
             return response.json();
         })
         .then(data => {
+            // const details = {
+            //     w: data.day.date,
+            //     y: data.season.year,
+            //     t: data.season.type,
+            // };
             const details = {
-                w: data.day.date,
-                y: data.season.year,
-                t: data.season.type,
+                w: moment().endOf('week').format("DD.MM.YYYY"),//data.leagues[0]?.day?.date,
+                y: data.leagues[0]?.season?.year,
+                t: data.leagues[0]?.season?.type?.type,
             };
 
             // Create events array
