@@ -8,8 +8,9 @@ This module is an extention for the [MagicMirror](https://github.com/MichMich/Ma
 
 The module is based on the work of [bgibz](https://github.com/bgibz/MMM-NBA) and got extended by some ideas of the module of [jclarke0000](https://github.com/jclarke0000/MMM-MyScoreboard) and [fewieden](https://github.com/fewieden/MMM-NHL).
 
-### To-Do's
+## Screenshot
 
+![MMM-NBA](screenshot.png)
 
 ## Installation
 
