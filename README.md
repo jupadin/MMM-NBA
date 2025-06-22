@@ -4,31 +4,40 @@
     <a href="https://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
-This module is an extention for the [MagicMirror](https://github.com/MichMich/MagicMirror).
+This module is an extention for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror).
 
 The module is based on the work of [bgibz](https://github.com/bgibz/MMM-NBA) and got extended by some ideas of the module of [jclarke0000](https://github.com/jclarke0000/MMM-MyScoreboard) and [fewieden](https://github.com/fewieden/MMM-NHL).
 
-### To-Do's
+## Screenshot
 
+![MMM-NBA](screenshot.png)
 
 ## Installation
 
-Open a terminal session, navigate to your MagicMirror's `modules` folder and execute `git clone https://github.com/jupadin/MMM-NBA.git`, such that a new folder called MMM-NBA will be created.
+To install the module, clone the repository into the `modules` directory and install the dependencies:
 
-Activate the module by adding it to the `config.js` file of the MagicMirror as shown below.
-
-The table below lists all possible configuration options.
-
-````javascript
-cd modules
-git clone https://github.com/jupadin/MMM-NBA.git
+```bash
+cd ~/MagicMirror/modules
+git clone https://github.com/jupadin/MMM-NBA
 cd MMM-NBA
 npm install
-````
+```
 
-## Using the module
-````javascript
-    modules: [
+## Update
+
+To update the module, navigate to the module directory and pull the latest changes:
+
+```bash
+cd ~/MagicMirror/modules/MMM-NBA
+git pull
+npm install
+```
+
+## Configuration
+
+Add the following code snippet to the `config.js` file of your MagicMirror in the `modules` array:
+
+```javascript
         {
             module: "MMM-NBA",
             header: "MMM-NBA",
@@ -43,15 +52,12 @@ npm install
                 showHeaderAsIcons: false,
                 showFooter: true,
             }
-        }
-    ]
-````
+        },
+```
 
-## Configuration options
+### Configuration options
 
 The following configuration options can be set and/or changed:
-
-### Module
 
 | Option | Type | Default | Description |
 | ---- | ---- | ---- | ---- |
