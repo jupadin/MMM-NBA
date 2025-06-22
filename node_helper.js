@@ -80,7 +80,7 @@ module.exports = NodeHelper.create({
         return formattedEvent;
     },
 
-    getData: function() {
+    getData: async function() {
         Log.info(`${this.name}: Fetching data from NBA-Server...`);
         
         const self = this;
@@ -94,15 +94,14 @@ module.exports = NodeHelper.create({
         const url = nbaURL + `?dates=${beginOfWeek}-${lastDayOfMonth}`;
         const fetchOptions = {};
 
-        fetch(url, fetchOptions)
-        .then(response => {
+        try {
+            const response = await fetch(url, fetchOptions);
             if (response.status != 200) {
                 self.sendSocketNotification("ERROR", response.status);
                 throw `Error fetching NBA data with status code ${response.status}.`;
             }
-            return response.json();
-        })
-        .then(data => {
+            
+            const data = await response.json();
             // const details = {
             //     w: data.day.date,
             //     y: data.season.year,
@@ -137,11 +136,9 @@ module.exports = NodeHelper.create({
 
             // Send data to front-end
             self.sendSocketNotification("DATA", {games: scores, details: details});
-        })
-        .catch(error => {
+        } catch (error) {
             Log.debug(`${this.name}: ${error}.`);
-            return;
-        });
+        }
 
         // Set timeout to continuosly fetch new data from NBA-Server
         setTimeout(self.getData.bind(self), self.updateInterval);
