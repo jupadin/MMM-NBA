@@ -4,7 +4,7 @@
     <a href="https://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
-This module is an extention for the [MagicMirror](https://github.com/MichMich/MagicMirror).
+This module is an extention for [MagicMirror²](https://github.com/MagicMirrorOrg/MagicMirror).
 
 The module is based on the work of [bgibz](https://github.com/bgibz/MMM-NBA) and got extended by some ideas of the module of [jclarke0000](https://github.com/jclarke0000/MMM-MyScoreboard) and [fewieden](https://github.com/fewieden/MMM-NHL).
 
