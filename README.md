@@ -14,22 +14,30 @@ The module is based on the work of [bgibz](https://github.com/bgibz/MMM-NBA) and
 
 ## Installation
 
-Open a terminal session, navigate to your MagicMirror's `modules` folder and execute `git clone https://github.com/jupadin/MMM-NBA.git`, such that a new folder called MMM-NBA will be created.
+To install the module, clone the repository into the `modules` directory and install the dependencies:
 
-Activate the module by adding it to the `config.js` file of the MagicMirror as shown below.
-
-The table below lists all possible configuration options.
-
-````javascript
-cd modules
-git clone https://github.com/jupadin/MMM-NBA.git
+```bash
+cd ~/MagicMirror/modules
+git clone https://github.com/jupadin/MMM-NBA
 cd MMM-NBA
 npm install
-````
+```
 
-## Using the module
-````javascript
-    modules: [
+## Update
+
+To update the module, navigate to the module directory and pull the latest changes:
+
+```bash
+cd ~/MagicMirror/modules/MMM-NBA
+git pull
+npm install
+```
+
+## Configuration
+
+Add the following code snippet to the `config.js` file of your MagicMirror in the `modules` array:
+
+```javascript
         {
             module: "MMM-NBA",
             header: "MMM-NBA",
@@ -44,15 +52,12 @@ npm install
                 showHeaderAsIcons: false,
                 showFooter: true,
             }
-        }
-    ]
-````
+        },
+```
 
-## Configuration options
+### Configuration options
 
 The following configuration options can be set and/or changed:
-
-### Module
 
 | Option | Type | Default | Description |
 | ---- | ---- | ---- | ---- |
