@@ -23,7 +23,7 @@ Module.register("MMM-NBA", {
     },
 
     // Define start sequence.
-    start: function() {
+    start () {
         Log.info("Starting module: " + this.name);
         // To change day names to locale day names
         moment.updateLocale(config.language, this.config.timeFormat);
@@ -55,12 +55,12 @@ Module.register("MMM-NBA", {
     },
 
     // Define required styles.
-    getStyles: function() {
+    getStyles () {
         return ["MMM-NBA.css", "font-awesome.css"];
     },
 
     // Define required translations.
-    getTranslations: function() {
+    getTranslations () {
         return {
             en: "translations/en.json",
             de: "translations/de.json",
@@ -68,12 +68,12 @@ Module.register("MMM-NBA", {
     },
 
     // Define required scripts.
-    getScripts: function() {
+    getScripts () {
         return ["moment.js"];
     },
 
     // Define header.
-    getHeader: function() {
+    getHeader () {
         if (!this.loaded) {
             return "MMM-NBA";
         }
@@ -81,7 +81,7 @@ Module.register("MMM-NBA", {
     },
 
     // Override dom generator.
-    getDom: function() {
+    getDom () {
         const self = this;
         const wrapper = document.createElement("div");
         wrapper.className = "MMM-NBA table";
@@ -151,7 +151,7 @@ Module.register("MMM-NBA", {
         return wrapper;
     },
 
-    createTableHeaderRow: function() {
+    createTableHeaderRow () {
         const tableHeaderRow = document.createElement("tr");
         tableHeaderRow.className = "tableHeader header";
 
@@ -203,7 +203,7 @@ Module.register("MMM-NBA", {
         return tableHeaderRow;
     },
 
-    createTableDataRow: function(data) {
+    createTableDataRow (data) {
         const tableDataRow = document.createElement("tr");
 
         // Date
@@ -302,7 +302,7 @@ Module.register("MMM-NBA", {
         return tableDataRow;
     },
 
-    createTableDataRowByeWeek: function(teamName) {
+    createTableDataRowByeWeek (teamName) {
         const tableDataRow = document.createElement("tr");
         tableDataRow.className = "tableRow";
 
@@ -338,7 +338,7 @@ Module.register("MMM-NBA", {
         return tableDataRow;
     },
 
-    getIcon: function(link) {
+    getIcon (link) {
         const teamIcon = document.createElement("img");
         teamIcon.src = link;
         teamIcon.style.height = "25px";
@@ -350,7 +350,7 @@ Module.register("MMM-NBA", {
     },
 
     // Override socket notification handler.
-    socketNotificationReceived: function(notification, payload) {
+    socketNotificationReceived (notification, payload) {
         if (notification == "DATA") {
             var animationSpeed = this.config.animationSpeed;
             if (this.loaded) {

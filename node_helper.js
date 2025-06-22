@@ -10,7 +10,7 @@ const Log = require('../../js/logger.js');
 const moment = require('moment');
 
 module.exports = NodeHelper.create({
-    start: function() {
+    start () {
         this.config = null;
         this.updateInterval = 60 * 60 * 1000;
         // this.seasonTypeMapping = {
@@ -20,7 +20,7 @@ module.exports = NodeHelper.create({
         // };
     },
 
-    socketNotificationReceived: function(notification, payload) {
+    socketNotificationReceived (notification, payload) {
         if (notification == "SET_CONFIG") {
             this.config = payload;
             this.updateInterval = this.config.updateInterval;
@@ -30,7 +30,7 @@ module.exports = NodeHelper.create({
         this.getData();
     },
 
-    getGameStatus: function(eventStatus) {
+    getGameStatus (eventStatus) {
         if (eventStatus.type.state === "pre") {
             // Upcoming
             return "P";
@@ -53,7 +53,7 @@ module.exports = NodeHelper.create({
         return eventStatus.period;
     },
 
-    mapEvent: function(event) {
+    mapEvent (event) {
         const ongoing = !['pre', 'post'].includes(event.status.type?.state);
         const remainingTime = ongoing && event.status.displayClock;
 
@@ -80,7 +80,7 @@ module.exports = NodeHelper.create({
         return formattedEvent;
     },
 
-    getData: async function() {
+    async getData () {
         Log.info(`${this.name}: Fetching data from NBA-Server...`);
         
         const self = this;
