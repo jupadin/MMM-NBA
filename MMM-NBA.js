@@ -16,6 +16,7 @@ Module.register("MMM-NBA", {
         timeFormat: 'dd. HH:mm',
         showHeaderAsIcons: false,
         showFooter: true,
+        maxGames: 10,
         urls: {
             regular: "http://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
         },
@@ -95,6 +96,12 @@ Module.register("MMM-NBA", {
 
         if (!this.loaded) {
             wrapper.innerHTML = this.translate("LOADING");
+            wrapper.className = "light small dimmed";
+            return wrapper;
+        }
+
+        if (!this.fetchedData.games) {
+            wrapper.innerHTML = this.translate("NO_GAMES");
             wrapper.className = "light small dimmed";
             return wrapper;
         }
@@ -340,7 +347,8 @@ Module.register("MMM-NBA", {
 
     getIcon: function(link) {
         const teamIcon = document.createElement("img");
-        teamIcon.src = link;
+        if (!link) teamIcon.src = "https://a.espncdn.com/i/teamlogos/leagues/500/nba.png";
+        else teamIcon.src = link;
         teamIcon.style.height = "25px";
         teamIcon.style.width = "25px";
         if (!this.config.colored) {

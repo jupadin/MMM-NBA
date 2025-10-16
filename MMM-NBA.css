@@ -13,38 +13,38 @@
     line-height: 1;
 }
 
-.live {
+.MMM-NBA .live {
     font-size: 14px !important;
 }
 
-.tableHeader {
+.MMM-NBA .tableHeader {
     text-align: center;
 }
 
-.date {
+.MMM-NBA .date {
     /* font-size: 14px !important; */
     padding-right: 25px;
 }
 
-.firstTeam {
+.MMM-NBA .firstTeam {
     text-align: left;
     padding-right: 15px;
 }
 
-.firstTeamScore {
+.MMM-NBA .firstTeamScore {
     padding-right: 5px;
 }
 
-.secondTeam {
+.MMM-NBA .secondTeam {
     text-align: right;
     padding-left: 15px;
 }
 
-.secondTeamScore {
+.MMM-NBA .secondTeamScore {
     padding-left: 5px;
 }
 
-.byeweek.team .byeweek.logo {
+.MMM-NBA .byeweek.team .byeweek.logo {
     text-align: left;
     padding-right: 15px;
 }
@@ -55,7 +55,7 @@
     border-top: 1px solid var(--color-text-dimmed);
 }
 
-.uncolored {
+.MMM-NBA .uncolored {
     filter: grayscale(100%);
     -webkit-filter: grayscale(100%);
 }

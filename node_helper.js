@@ -94,6 +94,8 @@ module.exports = NodeHelper.create({
         const url = nbaURL + `?dates=${beginOfWeek}-${lastDayOfMonth}`;
         const fetchOptions = {};
 
+        Log.debug(`${this.name}: Fetching data from URL: ${url}`);
+
         fetch(url, fetchOptions)
         .then(response => {
             if (response.status != 200) {
@@ -115,7 +117,8 @@ module.exports = NodeHelper.create({
             };
 
             // Create events array
-            const events = data.events || [];
+            let events = data.events || [];
+            if (self.config.maxGames) events = data.events.slice(0, self.config.maxGames);
 
             // Format each event based on callback function (mapEvent) and sort it afterwards, based on start date (starttime).
             const scores = events.map(self.mapEvent.bind(self)).sort((a, b) => {

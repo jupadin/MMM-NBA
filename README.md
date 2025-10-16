@@ -42,6 +42,7 @@ npm install
                 timeFormat: "dd. HH:mm",
                 showHeaderAsIcons: false,
                 showFooter: true,
+                maxGames: 10,
             }
         }
     ]
