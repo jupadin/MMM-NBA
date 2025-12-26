@@ -11,7 +11,7 @@ Module.register("MMM-NBA", {
         animationSpeed: 2 * 1000, // 2 seconds
         updateIntervalLive: 1 * 60 * 1000, // 1 minute
         updateInterval: 60 * 60 * 1000, // 1 hour
-        focus_on: ['CHI'],
+        focus_on: false,
         colored: true,
         timeFormat: 'dd. HH:mm',
         showHeaderAsIcons: false,
