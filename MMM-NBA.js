@@ -11,12 +11,13 @@ Module.register("MMM-NBA", {
         animationSpeed: 2 * 1000, // 2 seconds
         updateIntervalLive: 1 * 60 * 1000, // 1 minute
         updateInterval: 60 * 60 * 1000, // 1 hour
-        focus_on: false,
+        focus_on: ['CHI'],
         colored: true,
         timeFormat: 'dd. HH:mm',
         showHeaderAsIcons: false,
         showFooter: true,
-        maxGames: 10,
+        numMaxPastGames: 2,
+        numMaxFutureGames: 10,
         urls: {
             regular: "http://site.api.espn.com/apis/site/v2/sports/basketball/nba/scoreboard",
         },

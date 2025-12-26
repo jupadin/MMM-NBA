@@ -94,7 +94,7 @@ module.exports = NodeHelper.create({
         const url = nbaURL + `?dates=${beginOfWeek}-${lastDayOfMonth}`;
         const fetchOptions = {};
 
-        Log.debug(`${this.name}: Fetching data from URL: ${url}`);
+        Log.info(`${this.name}: Fetching data from URL: ${url}`);
 
         fetch(url, fetchOptions)
         .then(response => {
@@ -105,28 +105,44 @@ module.exports = NodeHelper.create({
             return response.json();
         })
         .then(data => {
-            // const details = {
-            //     w: data.day.date,
-            //     y: data.season.year,
-            //     t: data.season.type,
-            // };
             const details = {
                 w: moment().endOf('week').format("DD.MM.YYYY"),//data.leagues[0]?.day?.date,
                 y: data.leagues[0]?.season?.year,
                 t: data.leagues[0]?.season?.type?.type,
             };
 
+            // Log.debug(`${this.name}: Retrieved details: ${JSON.stringify(data.events)}`);
+
             // Create events array
             let events = data.events || [];
-            if (self.config.maxGames) events = data.events.slice(0, self.config.maxGames);
 
-            // Format each event based on callback function (mapEvent) and sort it afterwards, based on start date (starttime).
-            const scores = events.map(self.mapEvent.bind(self)).sort((a, b) => {
-                return (a.starttime < b.starttime) ? -1 : ((a.starttime > b.starttime) ? 1 : 0); 
+            // If no events found, exit here.
+            if (!events.length) {
+                Log.info(`${this.name}: No games found for the given time range...`);
+                return;
+            }
+
+            const allGames = data.events || [];
+            const pastGames = [];
+            const futureGames = [];
+            const today = Date.now();
+
+            allGames.forEach(game => {
+                game._ts = Date.parse(game.date);
+                (game._ts < today ? pastGames : futureGames).push(game);
             });
 
-            // console.log(scores[0]);
-            // scores.some(e => console.log(e.q));
+            // Sort games
+            pastGames.sort((a, b) => b._ts - a._ts);   // neu → alt
+            futureGames.sort((a, b) => a._ts - b._ts); // alt → neu
+
+            // Limit number of games
+            const lastGames = pastGames.slice(0, self.config.numMaxPastGames);
+            const upcomingGames = futureGames.slice(0, self.config.numMaxFutureGames);
+            const scores = [...lastGames, ...upcomingGames].map(event => self.mapEvent(event));
+
+
+            // Log.debug(`${this.name}: Retrieved ${scores.length} NBA games.`);
 
             // Check if there is currently a live match
             if (scores.some(e => e.q in ["1", "2", "3", "4", "H", "OT"])) {
@@ -143,7 +159,7 @@ module.exports = NodeHelper.create({
         })
         .catch(error => {
             Log.debug(`${this.name}: ${error}.`);
-            return;
+            self.sendSocketNotification("ERROR", "Error fetching NBA data.");
         });
 
         // Set timeout to continuosly fetch new data from NBA-Server

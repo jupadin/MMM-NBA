@@ -4,7 +4,7 @@
     <a href="https://choosealicense.com/licenses/mit"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
-This module is an extention for the [MagicMirror](https://github.com/MichMich/MagicMirror).
+This module is an extension for the [MagicMirror](https://github.com/MichMich/MagicMirror).
 
 The module is based on the work of [bgibz](https://github.com/bgibz/MMM-NBA) and got extended by some ideas of the module of [jclarke0000](https://github.com/jclarke0000/MMM-MyScoreboard) and [fewieden](https://github.com/fewieden/MMM-NHL).
 
@@ -42,7 +42,8 @@ npm install
                 timeFormat: "dd. HH:mm",
                 showHeaderAsIcons: false,
                 showFooter: true,
-                maxGames: 10,
+                numMaxPastGames: 2,
+                numMaxFutureGames: 10
             }
         }
     ]
@@ -64,3 +65,5 @@ The following configuration options can be set and/or changed:
 | `timeFormat` | `string` | `'dd. HH:mm'` | Displays the time of the upcoming events in the given format |
 | `showHeaderAsIcons`| `bool` |`false` | Display header as icons |
 | `showFooter` | `bool` | `true` | Display footer with information about last update |
+| `numMaxPastGames` | `int` | `2` | Max number of past games to be displayed |
+| `numMaxFutureGames` | `int` | `10` | Max number of upcoming games to be displayed |
