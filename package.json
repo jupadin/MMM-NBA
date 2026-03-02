@@ -1,4 +1,27 @@
 {
+  "name": "mmm-nba",
+  "version": "1.0.0",
+  "description": "MagicMirror² module to display the current standings in the National Basketball Association.",
+  "main": "MMM-NBA.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jupadin/MMM-NBA.git"
+  },
+  "keywords": [
+    "Sports",
+    "NBA",
+    "Basketball"
+  ],
+  "author": "jupadin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jupadin/MMM-NBA/issues"
+  },
+  "homepage": "https://github.com/jupadin/MMM-NBA#readme",
   "dependencies": {
+    "moment": "^2.30.1"
   }
 }

@@ -1,4 +1,4 @@
-/* Magic Mirror
+/* MagicMirror²
  * Module: MMM-NBA
  *
  * By jupadin
@@ -10,17 +10,12 @@ const Log = require('../../js/logger.js');
 const moment = require('moment');
 
 module.exports = NodeHelper.create({
-    start: function() {
+    start () {
         this.config = null;
         this.updateInterval = 60 * 60 * 1000;
-        // this.seasonTypeMapping = {
-        //     1: "P",
-        //     2: "R",
-        //     3: "Playoffs",
-        // };
     },
 
-    socketNotificationReceived: function(notification, payload) {
+    socketNotificationReceived (notification, payload) {
         if (notification == "SET_CONFIG") {
             this.config = payload;
             this.updateInterval = this.config.updateInterval;
@@ -30,7 +25,7 @@ module.exports = NodeHelper.create({
         this.getData();
     },
 
-    getGameStatus: function(eventStatus) {
+    getGameStatus (eventStatus) {
         if (eventStatus.type.state === "pre") {
             // Upcoming
             return "P";
@@ -53,7 +48,7 @@ module.exports = NodeHelper.create({
         return eventStatus.period;
     },
 
-    mapEvent: function(event) {
+    mapEvent (event) {
         const ongoing = !['pre', 'post'].includes(event.status.type?.state);
         const remainingTime = ongoing && event.status.displayClock;
 
@@ -80,41 +75,34 @@ module.exports = NodeHelper.create({
         return formattedEvent;
     },
 
-    getData: function() {
+    async getData () {
         Log.info(`${this.name}: Fetching data from NBA-Server...`);
-        
+
         const self = this;
 
         const nbaURL = self.config.urls[self.config.mode];
         const lastDayOfMonth = moment().endOf('month').format('YYYYMMDD');
-        // const firstDayOfMonth = moment().startOf('month').format('YYYYMMDD');
-        // const lastDayOfLastMonth = moment().subtract(1, 'month').endOf('month').format('YYYYMMDD');
         const beginOfWeek = moment().startOf('week').format('YYYYMMDD');
-        // const endOfWeek = moment().endOf('week').format('YYYYMMDD');
         const url = nbaURL + `?dates=${beginOfWeek}-${lastDayOfMonth}`;
         const fetchOptions = {};
 
         Log.info(`${this.name}: Fetching data from URL: ${url}`);
 
-        fetch(url, fetchOptions)
-        .then(response => {
+        try {
+            const response = await fetch(url, fetchOptions);
             if (response.status != 200) {
                 self.sendSocketNotification("ERROR", response.status);
                 throw `Error fetching NBA data with status code ${response.status}.`;
             }
-            return response.json();
-        })
-        .then(data => {
+
+            const data = await response.json();
             const details = {
-                w: moment().endOf('week').format("DD.MM.YYYY"),//data.leagues[0]?.day?.date,
+                w: moment().endOf('week').format("DD.MM.YYYY"),
                 y: data.leagues[0]?.season?.year,
                 t: data.leagues[0]?.season?.type?.type,
             };
 
-            // Log.debug(`${this.name}: Retrieved details: ${JSON.stringify(data.events)}`);
-
-            // Create events array
-            let events = data.events || [];
+            const events = data.events || [];
 
             // If no events found, exit here.
             if (!events.length) {
@@ -141,12 +129,8 @@ module.exports = NodeHelper.create({
             const upcomingGames = futureGames.slice(0, self.config.numMaxFutureGames);
             const scores = [...lastGames, ...upcomingGames].map(event => self.mapEvent(event));
 
-
-            // Log.debug(`${this.name}: Retrieved ${scores.length} NBA games.`);
-
             // Check if there is currently a live match
             if (scores.some(e => e.q in ["1", "2", "3", "4", "H", "OT"])) {
-                // console.log("Live");
                 // If there is a match currently live, set update interval to 1 minute.
                 self.updateInterval = self.config.updateIntervalLive;
             } else {
@@ -156,11 +140,10 @@ module.exports = NodeHelper.create({
 
             // Send data to front-end
             self.sendSocketNotification("DATA", {games: scores, details: details});
-        })
-        .catch(error => {
+        } catch (error) {
             Log.debug(`${this.name}: ${error}.`);
             self.sendSocketNotification("ERROR", "Error fetching NBA data.");
-        });
+        }
 
         // Set timeout to continuosly fetch new data from NBA-Server
         setTimeout(self.getData.bind(self), self.updateInterval);
